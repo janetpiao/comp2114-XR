@@ -47,6 +47,9 @@
             const box = BABYLON.MeshBuilder.CreateBox("box", {}); // Create box mesh object
             const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {}, scene);
             sphere.position.y = 2; 
+            let material = new BABYLON.StandardMaterial("material", scene); // Create a material
+            material.diffusesColor = new BABYLON.Color3(1.0, 0.0, 0.0); // Set the material color to red
+            sphere.material = material; // Apply the material to the sphere
             const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0)); // Add Arc Rotate Camera
             camera.attachControl(canvas, true); // Attach camera control to the canvas
             // Replace the above camera with the below XR if you have a headset
