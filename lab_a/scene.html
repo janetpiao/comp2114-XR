@@ -40,8 +40,6 @@
         const engine = new BABYLON.Engine(canvas, true);
         // STEP 6: Build the createScene function
         const createScene = function() {
-            
-        
             // STEP 8a: Create a new BABYLON scene, passing in the engine as an argument
             const scene = new BABYLON.Scene(engine);
             const box = BABYLON.MeshBuilder.CreateBox("box", {}); // Create box mesh object
@@ -50,17 +48,44 @@
             let material = new BABYLON.StandardMaterial("material", scene); // Create a material
             material.diffuseColor = new BABYLON.Color3(1.0, 0.0, 0.0); // Set the material color to red
             sphere.material = material;
+
+            // Create a cylinder
+            const cylinder = BABYLON.MeshBuilder.CreateCylinder("cylinder", {height: 2, diameter: 1}, scene);
+            cylinder.position.x = 3; 
+            // set the color of the cylinder to blue
+            cylinder.material = new BABYLON.StandardMaterial("cylinderMaterial", scene);
+            cylinder.material.diffuseColor = new BABYLON.Color3(0.0, 0.0, 1.0); // Blue color
+  
+            //Create a cake
+            const cake = BABYLON.MeshBuilder.CreateCylinder("cake", {arc: 0.2,height:2, diameter:3, enclose: true}, scene);
+            cake.position.z = 3;
+            cake.position.x = -3;
+            cake.material = new BABYLON.StandardMaterial("cakeMaterial", scene);
+            cake.material.diffuseColor = new BABYLON.Color3(1.0, 0.4, 0.7); // Pink color 
+
+            // Create a sphere
+            const sphere2 = BABYLON.MeshBuilder.CreateSphere("sphere2", {diameter: 0.4}, scene);
+            sphere2.position.x = -2.3;
+            sphere2.position.y = 1.2;
+            sphere2.position.z = 2;
+            sphere2.material = new BABYLON.StandardMaterial("sphere2Material", scene);
+            sphere2.material.diffuseColor = new BABYLON.Color3(1.0, 0.8, 0.0); // Yellow color
+        
             // const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0)); // Add Arc Rotate Camera
             // camera.attachControl(canvas, true); // Attach camera control to the canvas
             // Replace the above camera with the below XR if you have a headset
             const xr = scene.createDefaultXRExperienceAsync();
-            
+ 
             const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
             // STEP 8b: Return the scene
             return scene;
-        }    
+        }     
         // STEP 7: Call the createScene function
          const scene = createScene();
+
+        // Set a light blue background color
+        scene.clearColor = new BABYLON.Color3(0.8, 0.9, 1.0);
+
         // STEP 8: Use the runRenderLoop() method to render the scene repeatedly
         engine.runRenderLoop(function() {
             scene.render();
