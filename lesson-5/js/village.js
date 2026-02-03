@@ -82,9 +82,13 @@ const createScene = async function() {
     });
 
     // STEP 1: Build a simple 1x1 cube car, with a standard material and a color
-    
+    const cart = BABYLON.MeshBuilder.CreateBox("cart");
+    const cartMat = new BABYLON.StandardMaterial("cartMat");
+    cartMat.diffuseColor = new BABYLON.Color3(1,0,1);
+    cart.material = cartMat;
 
     // STEP 2a: The local coordinates origin of the cube car is the reference point for scaling and positioning it within the scene - move it up 0.5 so that it sits on the ground
+    cart.position = new BABYLON.Vector3(1, 0.5, -0.75);
     
     // STEP 2b: Move it out of the way so that the 0,0,0 point in the scene is visible for the next mesh we will import
 
@@ -93,7 +97,22 @@ const createScene = async function() {
     // STEP 3c: Export the wheel as a .glb file and put it in the meshes folder
     
     // STEP 4a: Drop the wheel into the scene using the ImportMeshAsync method
-    
+    const wheel1 = BABYLON.SceneLoader.ImportMeshAsync("", "./meshes/", "wheel1.glb").then((result) => {
+        // Do this stuff after the mesh has been loaded
+        const wheel1Mesh = result.meshes[0];
+        // Grab the bounding box
+        const wheelBounds = result.meshes[1];
+        wheelBounds.showBoundingBox = true;
+        // wheel1Mesh.position = new BABYLON.Vector3(0.5, 0.2, -1.5);
+        wheel1Mesh.scaling = new BABYLON.Vector3(100, 100, 100);
+        // wheel1Mesh.rotate.y = BABYLON.Tools.ToRadians(90);
+        // Attach the wheel to the cart mesh (parent)
+        wheel1Mesh.parent = cart;
+    }).catch((error) => {
+        // Oops, the mesh didn't load for some reason
+        console.error("Error loading mesh:" + error);
+        return null;
+    })
 
     // STEP 4b: The wheel is 4 units radius, which is too big again - so scale it down to 1/10 the size above
     // STEP 4c: Add a bounding box to the wheel to see the dimensions of the mesh (this can be accessed via the second mesh in the result.meshes array, result.meshes[1])
