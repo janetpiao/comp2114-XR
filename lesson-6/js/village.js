@@ -12,6 +12,10 @@ const createScene = async function() {
     ---------------------------------------------------------------------------------------------------- */
     // Add a camera and allow it to control the canvas
     const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0));
+    camera.attachControl(canvas, true);
+
+
+
     // STEP 11: Restrict camera from going below the ground
     
 
@@ -194,25 +198,37 @@ const createScene = async function() {
     /* ANIMATION
     ---------------------------------------------------------------------------------------------------- */
     // STEP 1: Create a new animation object (at 30 FPS)
-    
+    const animCar = new BABYLON.Animation("carAnimation", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
 
     // STEP 2a: Create an array for keyframes
-    
+    const carKeys = [];
     // STEP 2b: Add the first keyframe - at key 0, the value of position.x is -3
-    
+    carKeys.push({
+        frame: 0,
+        value: -3
+    });
     // STEP 2c: at animation key 60, (after 2 seconds since animation FPS = 30) the value of position.x is 3
+    carKeys.push({
+        frame: 60,
+        value: 3
+    });
     
     // STEP 2d: At animation key 120, the value of position.x is -3 again
-    
+    carKeys.push({
+        frame: 120,
+        value: -3
+    });
 
     // STEP 3: Attach the animation keys to the animation object
-    
+    animCar.setKeys(carKeys);
 
     // STEP 4: Add the animation object to the car's animations array
-    
+    car.animations = [];
+    car.animations.push(animCar);
 
     // STEP 5: Attach the animation to the scene
-    
+    // Begin animation - object to animate, 
+    scene.beginAnimation(car, 0, 120, true);
 
     /* ENABLE IMMERSIVE VR
     ---------------------------------------------------------------------------------------------------- */
