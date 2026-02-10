@@ -12,13 +12,9 @@ const createScene = async function() {
     ---------------------------------------------------------------------------------------------------- */
     // Add a camera and allow it to control the canvas
     const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0));
-    camera.attachControl(canvas, true);
-
-
-
     // STEP 11: Restrict camera from going below the ground
     
-
+    camera.attachControl(canvas, true);
 
     /* LIGHTING
     ---------------------------------------------------------------------------------------------------- */
@@ -51,16 +47,10 @@ const createScene = async function() {
     // STEP 6b: Create large ground texture material using Babylon.js library (https://assets.babylonjs.com/environments/valleygrass.png)
     const largeGroundMat = new BABYLON.StandardMaterial("largeGroundMat");
     largeGroundMat.diffuseTexture = new BABYLON.Texture("https://assets.babylonjs.com/environments/valleygrass.png");
-    // Make the ground not-shiny
+    // Make the ground non-shiny
     largeGroundMat.specularColor = new BABYLON.Color3(0, 0, 0);
     // STEP 6c: Build a 3D ground surface based on a heightmap (https://assets.babylonjs.com/environments/villageheightmap.png)
-    const largeGround = BABYLON.MeshBuilder.CreateGroundFromHeightMap("largeGround", "https://assets.babylonjs.com/environments/villageheightmap.png", {
-        width: 150,
-        height: 150,
-        subdivisions: 20,
-        minHeight: 0,
-        maxHeight: 20
-    });
+    const largeGround = BABYLON.MeshBuilder.CreateGroundFromHeightMap("largeGround", "https://assets.babylonjs.com/environments/villageheightmap.png", {width: 150, height: 150, subdivisions: 20, minHeight: 0, maxHeight: 20});
     // STEP 6d: Set the largeGround material property to be the largeGroundMat we created above
     largeGround.material = largeGroundMat;
     
@@ -71,14 +61,18 @@ const createScene = async function() {
     /* SKY
     ---------------------------------------------------------------------------------------------------- */
     // STEP 7a: Add a skybox (see https://playground.babylonjs.com/#UU7RQ#91 to visualize how this works)
-    
+    const skybox = BABYLON.MeshBuilder.CreateBox("skybox", {size: 150}, scene);
     // STEP 7b: Apply the 6 images onto the skybox cube (look at the /textures/ directory)
-    
+    const skyboxMaterial = new BABYLON.StandardMaterial("skyboxMat", scene);
+    skyboxMaterial.backFaceCulling = false;
+    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("./textures/skybox", scene);
     // Thanks to Chad Wolfe's skybox bitmaps at https://opengameart.org/content/sky-box-sunny-day
     // STEP 7c: Make the skybox non-reflective
-    
+    skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+    skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+    skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
     // STEP 7d: Set the skybox material property
-    
+    skybox.material = skyboxMaterial;
 
 
     /* HOUSES
@@ -221,12 +215,11 @@ const createScene = async function() {
         frame: 60,
         value: 3
     });
-    
     // STEP 2d: At animation key 120, the value of position.x is -3 again
     carKeys.push({
         frame: 120,
         value: -3
-    });
+    });    
 
     // STEP 3: Attach the animation keys to the animation object
     animCar.setKeys(carKeys);
@@ -236,7 +229,7 @@ const createScene = async function() {
     car.animations.push(animCar);
 
     // STEP 5: Attach the animation to the scene
-    // Begin animation - object to animate, 
+    // Begin animation - object to animate, first frame, last frame and loop if true
     scene.beginAnimation(car, 0, 120, true);
 
     /* ENABLE IMMERSIVE VR
