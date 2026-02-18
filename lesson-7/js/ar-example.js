@@ -35,7 +35,10 @@ const createScene = async function() {
     /* MESHES
     ---------------------------------------------------------------------------------------------------- */
     // STEP 1: Create a simple box, and apply a material and a colour to it.
-    
+    const box = BABYLON.MeshBuilder.CreateBox("box", {size: 0.5}, scene);
+    const boxMat = new BABYLON.StandardMaterial("boxMat", scene);
+    boxMat.diffuseColor = new BABYLON.Color3(1, 0.5, 0);
+    box.material = boxMat;
     // STEP 4: Move the box so it is not at your feet
     
     // STEP 4b: It is embedded in the floor - bring it up 0.25
@@ -55,9 +58,9 @@ const createScene = async function() {
     // STEP 2a: Start a WebXR session (immersive-ar, specifically)
     const xr = await scene.createDefaultXRExperienceAsync({
         uiOptions: {
-            
+            sessionMode: "immersive-ar",
             // STEP 2b: We need 0, 0, 0 to be a space on the floor, not between your eyes! There are several types of reference spaces: viewer, local, local-floor, bounded-floor, and unbounded (https://developer.mozilla.org/en-US/docs/Web/API/XRReferenceSpace)
-            
+            referenceSpaceType: "local-floor"
         },
         // STEP 2c: Meta Quest requires these to be explicitly requested
         
