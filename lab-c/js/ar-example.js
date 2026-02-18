@@ -117,10 +117,10 @@ const createScene = async function() {
         if (lastHitTest && marker.isVisible) {
             // STEP 8c: Create an anchor point based on the last hit-test coordinates
             const anchor = await anchorSystem.addAnchorPointUsingHitTestResultsAsync(lastHitTest);
-            // STEP 8d: Build a box to drop on the surface
-            const box = buildRandomShape();
-            // STEP 8e: Attach the box to the real world!
-            anchor.attachedNode = box;
+            // STEP 8d: Build a shape to drop on the surface
+            const shape = buildRandomShape();
+            // STEP 8e: Attach the shape to the real world!
+            anchor.attachedNode = shape;
         }    
     }    
     
