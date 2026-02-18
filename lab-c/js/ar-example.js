@@ -118,7 +118,7 @@ const createScene = async function() {
             // STEP 8c: Create an anchor point based on the last hit-test coordinates
             const anchor = await anchorSystem.addAnchorPointUsingHitTestResultAsync(lastHitTest);
             // STEP 8d: Build a box to drop on the surface
-            const box = buildRandomBox();
+            const box = buildRandomShape();
             // STEP 8e: Attach the box to the real world!
             anchor.attachedNode = box;
         }    
