@@ -127,7 +127,7 @@ const createScene = async function () {
     box.material.diffuseColor = new BABYLON.Color3.Random();
   }
   // STEP 8: Make the can grabbable and moveable (awesome)!
-  can.bakeCurrentTransformIntoVertices.addBehavior(new BABYLON.SixDodDragBehavior()); // This is needed to make the mesh work with the drag behaviour
+  can.bakeCurrentTransformIntoVertices().addBehavior(new BABYLON.SixDofDragBehavior()); // This is needed to make the mesh work with the drag behaviour
   // Return the scene
   return scene;
 };
