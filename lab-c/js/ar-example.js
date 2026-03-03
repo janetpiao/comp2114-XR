@@ -95,6 +95,8 @@ const createScene = async function() {
     // STEP 7b: Add an event listener for the hit-test results
     hitTest.onHitTestResultObservable.add((results) => {
         // STEP 7c: If there is a successful hit-test, then make the marker visible
+        console.log("pointer detected");
+        
         if (results.length) {
             marker.isVisible = true;
             // STEP 7d: Grab the hit-test matrix of coordinates
